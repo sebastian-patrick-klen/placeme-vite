@@ -2,7 +2,7 @@
 
 # PlaceMe
 
-PlaceMe je webová aplikace, která umožňuje uživatelům sdílet místa na interaktivní mapě místo fotek jako na Instagramu. Tento projekt jsem vytvořil jako portfolio pro Přímací řízení a je open source.
+PlaceMe je webová aplikace, která umožňuje uživatelům sdílet místa na interaktivní mapě místo fotek jako na Instagramu. Tento projekt jsem vytvořil jako portfolio pro přijímací řízení a je open source.
 
 ## Tech:
 
