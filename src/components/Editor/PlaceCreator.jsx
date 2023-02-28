@@ -39,7 +39,7 @@ const PlaceCreator = () => {
         lng: posCtx.newPlacePos.lng,
       };
 
-      const fetchString = `http://localhost:5000/api/places`;
+      const fetchString = `${import.meta.env.VITE_API_URL}/api/places`;
 
       const res = await fetch(fetchString, {
         method: 'POST',

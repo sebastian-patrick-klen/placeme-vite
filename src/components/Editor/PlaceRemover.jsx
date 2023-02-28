@@ -6,7 +6,7 @@ export default function ({ id }) {
   const token = getAuthToken();
 
   async function handleDelete() {
-    const fetchString = `http://localhost:5000/api/places/${id}`;
+    const fetchString = `${import.meta.env.VITE_API_URL}/api/places/${id}`;
 
     const res = await fetch(fetchString, {
       method: 'DELETE',
@@ -18,7 +18,6 @@ export default function ({ id }) {
     const data = await res.json();
 
     if (res.ok) {
-      console.log(data);
       navigate('/');
     }
   }

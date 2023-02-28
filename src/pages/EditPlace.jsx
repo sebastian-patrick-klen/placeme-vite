@@ -3,7 +3,6 @@ import PlaceUpdater from '../components/Editor/PlaceUpdater';
 
 const EditPlace = () => {
   const { place } = useLoaderData();
-  console.log(place);
 
   return <PlaceUpdater placeData={place} />;
 };

@@ -25,7 +25,6 @@ export default function Map({
         posCtx.setNewPlacePos(e.latlng);
       },
     });
-    console.log(posCtx.newPlacePos);
 
     return posCtx.newPlacePos === null ? null : (
       <Marker position={posCtx.newPlacePos}>
