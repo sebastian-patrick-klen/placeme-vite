@@ -7,11 +7,19 @@ export default function ({
   onBlur,
   value,
   name,
+  label,
 }) {
   return (
     <div className='flex flex-col'>
+      <label
+        htmlFor={name}
+        className='block mb-2 text-base font-medium text-gray-700 '
+      >
+        {label}
+      </label>
       <input
         autoComplete='false'
+        id={name}
         type={type}
         name={name}
         placeholder={placeholder}

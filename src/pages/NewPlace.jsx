@@ -1,5 +1,7 @@
-const NewPlacePage = ({ children }) => {
-  return <p>New Place Page</p>;
+import PlaceCreator from '../components/Editor/PlaceCreator';
+
+const NewPlace = ({ children }) => {
+  return <PlaceCreator />;
 };
 
-export default NewPlacePage;
+export default NewPlace;

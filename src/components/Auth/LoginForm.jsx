@@ -19,6 +19,7 @@ export default function LoginForm() {
     <Form onSubmit={formik.handleSubmit}>
       <Input
         id='email'
+        label='Email'
         name='email'
         placeholder='Email'
         type='email'
@@ -29,6 +30,7 @@ export default function LoginForm() {
         errMessage={formik.errors.email}
       />
       <Input
+        label='Heslo'
         type='password'
         name='password'
         id='password'

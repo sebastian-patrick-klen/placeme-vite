@@ -1,5 +1,11 @@
-const EditPlace = ({ children }) => {
-  return <p>Edit Page</p>;
+import { useLoaderData } from 'react-router-dom';
+import PlaceUpdater from '../components/Editor/PlaceUpdater';
+
+const EditPlace = () => {
+  const { place } = useLoaderData();
+  console.log(place);
+
+  return <PlaceUpdater placeData={place} />;
 };
 
 export default EditPlace;

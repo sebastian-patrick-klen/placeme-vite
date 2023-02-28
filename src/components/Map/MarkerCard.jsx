@@ -12,7 +12,7 @@ export default function MarkerCard({ place }) {
             {place.creatorName}
           </p>
         </Link>
-        <Link to={`/places/${place._id}`}>
+        <Link to={`/place/${place._id}`}>
           <p className='px-3 py-3 bg-green-500 leading-none hover:bg-green-600/90 text-sm text-center uppercase text-white font-bold rounded-lg transition-colors'>
             Více o místě
           </p>

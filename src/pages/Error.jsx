@@ -13,7 +13,7 @@ const Error = () => {
   } else if (error.status === 404) {
     title = 'Stránka nenalezena';
     message =
-      'Požadovaná stránka nebyla nalezena. Prosím, zkontrolujte, zda jste zadali správnou URL adresu nebo se obraťte na správce stránky.';
+      'Požadovaná stránka nebyla nalezena. Prosím, zkontrolujte, zda jste zadali správnou URL adresu.';
   } else if (error.status === 400) {
     title = 'Chybná žádost';
     message =

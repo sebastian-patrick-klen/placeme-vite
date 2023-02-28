@@ -21,9 +21,19 @@ export async function usersLoader() {
 }
 
 export async function placesByUserLoader({ request, params }) {
-  console.log(params.id);
   const res = await fetch(
     `${import.meta.env.VITE_API_URL}/api/places/user/${params.id}`
+  );
+
+  if (!res.ok) {
+    throw json({}, { status: res.status });
+  } else {
+    return res;
+  }
+}
+export async function placeById({ request, params }) {
+  const res = await fetch(
+    `${import.meta.env.VITE_API_URL}/api/places/${params.id}`
   );
 
   if (!res.ok) {

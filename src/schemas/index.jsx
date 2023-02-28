@@ -48,6 +48,9 @@ export const updatePlaceSchema = yup.object().shape({
     .min(4, 'Popis je příliš krátký, minimální délka popisu je 10 znaků.')
     .max(150, 'Popis je příliš dlouhý, maximální délka názvu je 150 znaků.')
     .required('Zadejte prosím popis místa, pole nesmí zůstat prázdné.'),
+  image: yup
+    .string()
+    .required('Vyberte si prosím obrázek, pole nesmí zůstat prázdné.'),
 });
 
 export const newPlaceSchema = yup.object().shape({

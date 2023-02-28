@@ -5,7 +5,15 @@ import Map from './pages/Map';
 import UserPlaces from './pages/UserPlaces';
 import Users from './pages/Users';
 import Error from './pages/Error';
-import { placesByUserLoader, placesLoader, usersLoader } from './utils/loaders';
+import Place from './pages/Place';
+import {
+  placeById,
+  placesByUserLoader,
+  placesLoader,
+  usersLoader,
+} from './utils/loaders';
+import EditPlace from './pages/EditPlace';
+import NewPlace from './pages/NewPlace';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +26,21 @@ const router = createBrowserRouter([
         path: '/user/:id',
         element: <UserPlaces />,
         loader: placesByUserLoader,
+      },
+      {
+        path: '/user/:id/new',
+        element: <NewPlace />,
+        action: () => {},
+      },
+      {
+        path: '/place/:id',
+        element: <Place />,
+        loader: placeById,
+      },
+      {
+        path: '/place/:id/edit',
+        element: <EditPlace />,
+        loader: placeById,
       },
       { path: '/auth', element: <Auth /> },
       {

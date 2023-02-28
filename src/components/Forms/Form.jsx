@@ -4,7 +4,7 @@ export default function Form({ children, onSubmit }) {
       onSubmit={onSubmit}
       autoComplete='off'
       encType='multipart/form-data'
-      className='flex flex-col gap-6'
+      className='flex flex-col gap-3'
     >
       {children}
     </form>

@@ -19,8 +19,10 @@ const Nav = (props) => {
       </li>
       <li>
         <div className='flex items-center justify-center gap-4'>
-          <Link to={'/auth'}>
+          {/* <Link to={'/user/63fc9ce7e8aa1af01a10282b/new'}> */}
+          <Link to={'/auth?mode=login'}>
             <p className='px-5 py-3 bg-green-500 hover:bg-green-600 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
+              {/* Přidat nové místo */}
               Přihlásit se
             </p>
           </Link>

@@ -2,35 +2,33 @@ import Alert from '../Layout/UI/Alert';
 import { AiFillSetting, AiFillDelete } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
-export default function PlaceDetail({ placesData }) {
+export default function PlaceDetail({ place }) {
   return (
     <div className='w-full calc-height flex items-center justify-center overflow-hidden rounded-lg'>
       <div className='max-w-2xl mx-auto flex flex-col bg-gray-100 rounded-lg overflow-hidden'>
         <img
-          className=' h-96'
-          src={`https://placeme-backend.onrender.com/${placesData.image}`}
-          alt={placesData.title}
+          className=' max-w-2xl max-h-96'
+          src={place.image}
+          alt={place.title}
         ></img>
 
         <div className='mt-10 mb-8 px-5'>
-          <h3 className='text-xl text-center font-bold'>{placesData.title}</h3>
-          <Link to={`/user/${placesData.creator}`}>
+          <h3 className='text-xl text-center font-bold'>{place.title}</h3>
+          <Link to={`/user/${place.creator}`}>
             <h4 className='py-1 text-sm text-gray-800 text-center'>
-              {placesData.creatorName}
+              {place.creatorName}
             </h4>
           </Link>
 
-          <p className='py-3 text-gray-600 text-center'>
-            {placesData.description}
-          </p>
+          <p className='py-3 text-gray-600 text-center'>{place.description}</p>
           <div className='pt-3 flex items-center justify-center gap-4'>
-            <Link to={`/map/${placesData.id}`}>
+            <Link to={`/map/${place.id}`}>
               <p className='px-5 py-3 bg-green-500 hover:bg-green-600 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
                 Ukázat na mapě
               </p>
             </Link>
             <>
-              <Link to={`/places/new-place/${placesData.id}`}>
+              <Link to={`/places/new-place/${place.id}`}>
                 <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
                   <AiFillSetting size='21px' color='#94a3b8' />
                 </p>

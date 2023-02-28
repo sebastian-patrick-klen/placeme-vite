@@ -1,19 +1,15 @@
 import { useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import SingupForm from './SignupForm';
 
 export default function AtuhIndex() {
-  // isMode = true => Login
-  // isMode = false => Signup
-  const [isMode, setMode] = useState(true);
-
-  const changeModeHandler = () => {
-    setMode(!isMode);
-  };
+  const [searchParams] = useSearchParams();
+  const isMode = searchParams.get('mode') === 'login';
 
   return (
     <div className='max-w-lg mx-auto calc-height flex flex-col content-center justify-center'>
-      <h3 className='mb-6 text-xl font-semibold '>
+      <h3 className='mb-6 text-xl text-center font-semibold '>
         {isMode ? 'Přihlásit se' : 'Zaregistrovat se'}
       </h3>
 
@@ -21,9 +17,12 @@ export default function AtuhIndex() {
 
       <p className=' my-6 text-base text-gray-700'>
         {isMode ? 'Nemáte účet ' : 'Už máte účet '}
-        <span onClick={changeModeHandler} className='underline cursor-pointer'>
+        <Link
+          to={`?mode=${isMode ? 'signup' : 'login'}`}
+          className='underline cursor-pointer'
+        >
           {!isMode ? 'přihlšte se' : 'zaregistrujte se'}
-        </span>
+        </Link>
       </p>
     </div>
   );

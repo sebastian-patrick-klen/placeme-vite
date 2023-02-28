@@ -22,6 +22,7 @@ export default function SingupForm() {
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Input
+        label='Jméno'
         type='text'
         name='name'
         id='name'
@@ -33,6 +34,7 @@ export default function SingupForm() {
         errMessage={formik.errors.name}
       />
       <Input
+        label='Email'
         id='email'
         name='email'
         placeholder='Email'
@@ -44,6 +46,7 @@ export default function SingupForm() {
         errMessage={formik.errors.email}
       />
       <Input
+        label='Heslo'
         type='password'
         name='password'
         id='password'
@@ -56,6 +59,7 @@ export default function SingupForm() {
       />
 
       <Input
+        label='Obrázek'
         type='text'
         name='image'
         id='image'
