@@ -1,4 +1,4 @@
-export default function Form({ children, onSubmit }) {
+export default function FormWrapper({ children, onSubmit }) {
   return (
     <form
       onSubmit={onSubmit}

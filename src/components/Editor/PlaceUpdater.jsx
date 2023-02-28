@@ -1,16 +1,24 @@
 import { useFormik } from 'formik';
-import { AnimatePresence } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
 import { updatePlaceSchema } from '../../schemas';
 import PositionContext from '../../store/position-context';
-import Form from '../Forms/Form';
+import Form from '../Forms/FormWrapper';
 import FormButton from '../Forms/FormButton';
 import Input from '../Forms/Input';
 import SelectLocation from './SelectLocation';
+import { getAuthToken } from '../../utils/auth';
+import Alert from '../Layout/UI/Alert';
+import { useNavigate } from 'react-router-dom';
 
 const PlaceUpdater = ({ isEdit, placeData }) => {
   const posCtx = useContext(PositionContext);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [alertData, setAlterData] = useState({ message: '', title: '' });
+
+  const navigate = useNavigate();
+  const token = getAuthToken();
 
   const formik = useFormik({
     initialValues: {
@@ -21,7 +29,7 @@ const PlaceUpdater = ({ isEdit, placeData }) => {
 
     validationSchema: updatePlaceSchema,
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const formData = {
         title: values.title,
         description: values.description,
@@ -30,25 +38,43 @@ const PlaceUpdater = ({ isEdit, placeData }) => {
         lng: posCtx.newPlacePos.lng,
       };
 
-      console.log(formData);
-      //   const fetchString = `https://placeme-backend.onrender.com/api/places/${placeData._id}`;
+      const fetchString = `http://localhost:5000/api/places/${placeData._id}`;
 
-      //   fetch(fetchString, {
-      //     method: 'PATCH',
-      //     body: JSON.stringify(formData),
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       Authorization: `Bearer ${token.user.token}`,
-      //     },
-      //   })
-      //     .then((res) => res.json())
-      //     .then((res) => {
-      //       console.log(res);
-      //       router.push(`/places/${res.place.id}`);
-      //     })
-      //     .catch((err) => {
-      //       console.log(err);
-      //     });
+      const res = await fetch(fetchString, {
+        method: 'PATCH',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token[1]}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setIsLoading(false);
+        setIsOpen(true);
+        setAlterData({
+          title: 'Něco se pokazilo!',
+          message: data.message
+            ? data.message
+            : 'Je mi líto, ale přihlašovací údaje, které jste zadali, jsou nesprávné. Zkontrolujte prosím své přihlašovací údaje a zkuste to znovu.',
+        });
+      }
+
+      if (res.ok) {
+        setIsLoading(false);
+        setIsOpen(true);
+        setAlterData({
+          title: 'Uloženo!',
+          message: 'Příspěvek byl uspěšně uložen',
+        });
+
+        setTimeout(() => {
+          setIsOpen(false);
+          navigate(`/place/${data.place.id}`);
+        }, 3000);
+      }
     },
   });
 
@@ -106,10 +132,26 @@ const PlaceUpdater = ({ isEdit, placeData }) => {
 
         <SelectLocation open={modalOpen} setOpen={setModalOpen} />
 
-        <FormButton isValid={formik.isValid} type='submit'>
-          Uložit změny
+        <FormButton
+          isValid={formik.isValid}
+          type='submit'
+          isLoading={isLoading}
+        >
+          {!isLoading ? 'Uložit změny' : 'Ukládání...'}
         </FormButton>
       </Form>
+      <Alert
+        title={alertData.title}
+        message={alertData.message}
+        cancleBtn={
+          <button className='text-mauve11 bg-mauve4 hover:bg-mauve5 inline-flex py-3 items-center justify-center rounded-md px-4 font-medium leading-none outline-none '>
+            Zavřít
+          </button>
+        }
+        btn='Smazat'
+        open={isOpen}
+        setOpen={setIsOpen}
+      />
     </div>
   );
 };

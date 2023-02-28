@@ -26,7 +26,7 @@ export default function UserCard({ img, name, posts, id }) {
         <div>
           <img
             className='object-cover w-20 h-20 bg-gray-100  rounded-full'
-            src={`https://wallpapers.com/images/featured/4co57dtwk64fb7lv.jpg`}
+            src={img}
             alt={'Profile image'}
           />
         </div>

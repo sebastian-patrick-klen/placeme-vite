@@ -1,11 +1,19 @@
 import { useFormik } from 'formik';
-import { useState } from 'react';
+
 import { signupSchema } from '../../schemas';
-import Form from '../Forms/Form';
+import Form from '../Forms/FormWrapper';
 import FormButton from '../Forms/FormButton';
 import Input from '../Forms/Input';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Alert from '../Layout/UI/Alert';
 
 export default function SingupForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [alertData, setAlterData] = useState({ message: '', title: '' });
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -16,7 +24,47 @@ export default function SingupForm() {
 
     validationSchema: signupSchema,
 
-    onSubmit: (values) => {},
+    onSubmit: async (values) => {
+      setIsLoading(true);
+      const fetchString = `${import.meta.env.VITE_API_URL}/api/users/signup`;
+      const res = await fetch(fetchString, {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setIsLoading(false);
+        setIsOpen(true);
+        setAlterData({
+          title: 'Registrace se nezdařila',
+          message: data.message
+            ? data.message
+            : 'Je mi líto, ale registrace údaje, které jste zadali, jsou nesprávné. Zkontrolujte prosím své údaje a zkuste to znovu.',
+        });
+        return;
+      }
+
+      if (res.ok) {
+        setIsLoading(false);
+        setIsOpen(true);
+        setAlterData({
+          title: 'Gratulujeme vám k úspěšné registraci!',
+          message:
+            'Vaše účet byl úspěšně vytvořen a nyní můžete začít používat PlaceMe naplno.',
+        });
+
+        localStorage.setItem('token', `${data.id} ${data.token}`);
+        setTimeout(() => {
+          setIsOpen(false);
+          navigate('/');
+        }, 3000);
+      }
+    },
   });
 
   return (
@@ -70,9 +118,21 @@ export default function SingupForm() {
         isError={formik.errors.image && formik.touched.image}
         errMessage={formik.errors.image}
       />
-      <FormButton isValid={formik.isValid} type='submit'>
+      <FormButton isValid={formik.isValid} isLoading={isLoading} type='submit'>
         Zaregistrovat se
       </FormButton>
+      <Alert
+        title={alertData.title}
+        message={alertData.message}
+        cancleBtn={
+          <button className='text-mauve11 bg-mauve4 hover:bg-mauve5 inline-flex py-3 items-center justify-center rounded-md px-4 font-medium leading-none outline-none '>
+            Zavřít
+          </button>
+        }
+        btn='Smazat'
+        open={isOpen}
+        setOpen={setIsOpen}
+      />
     </Form>
   );
 }

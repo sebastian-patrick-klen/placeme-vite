@@ -2,6 +2,8 @@ import Alert from '../Layout/UI/Alert';
 import { AiFillSetting, AiFillDelete } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import PlaceRemover from '../Editor/PlaceRemover';
+import { getAuthToken } from '../../utils/auth';
 
 const cardVariants = {
   offscreen: { opacity: 0, scale: 1 },
@@ -17,6 +19,8 @@ const cardVariants = {
 };
 
 export default function PlaceItem(props) {
+  const token = getAuthToken();
+
   return (
     <motion.div
       initial='offscreen'
@@ -42,34 +46,32 @@ export default function PlaceItem(props) {
               </p>
             </Link>
 
-            <>
-              <Link to={`/places/new-place/${props.id}`}>
-                <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
-                  <AiFillSetting size='21px' color='#94a3b8' />
-                </p>
-              </Link>{' '}
-              <Alert
-                title='Opravdu chcete smazat tento příspěvek?'
-                message='Upozorňuji vás, že smazání příspěvku je nevratný krok, obsah
+            {token[1] && token[0] === props.creator && (
+              <>
+                <Link to={`/place/${props.id}/edit`}>
+                  <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
+                    <AiFillSetting size='21px' color='#94a3b8' />
+                  </p>
+                </Link>{' '}
+                <Alert
+                  title='Opravdu chcete smazat tento příspěvek?'
+                  message='Upozorňuji vás, že smazání příspěvku je nevratný krok, obsah
   bude trvale odstraněn!'
-                btnOpen={
-                  <button className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
-                    <AiFillDelete size='21px' color='#94a3b8' />
-                  </button>
-                }
-                confirmBtn={
-                  <button className='text-red11 bg-red4 hover:bg-red5 inline-flex py-3 items-center justify-center rounded-md px-4 font-medium leading-none outline-none'>
-                    Smazat
-                  </button>
-                }
-                cancleBtn={
-                  <button className='text-mauve11 bg-mauve4 hover:bg-mauve5 inline-flex py-3 items-center justify-center rounded-md px-4 font-medium leading-none outline-none '>
-                    Zrušit
-                  </button>
-                }
-                btn='Smazat'
-              />
-            </>
+                  btnOpen={
+                    <button className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
+                      <AiFillDelete size='21px' color='#94a3b8' />
+                    </button>
+                  }
+                  confirmBtn={<PlaceRemover id={props.id} />}
+                  cancleBtn={
+                    <button className='text-mauve11 bg-mauve4 hover:bg-mauve5 inline-flex py-3 items-center justify-center rounded-md px-4 font-medium leading-none outline-none '>
+                      Zrušit
+                    </button>
+                  }
+                  btn='Smazat'
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

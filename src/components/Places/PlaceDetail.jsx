@@ -1,6 +1,7 @@
 import Alert from '../Layout/UI/Alert';
 import { AiFillSetting, AiFillDelete } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import PlaceRemover from '../Editor/PlaceRemover';
 
 export default function PlaceDetail({ place }) {
   return (
@@ -28,7 +29,7 @@ export default function PlaceDetail({ place }) {
               </p>
             </Link>
             <>
-              <Link to={`/places/new-place/${place.id}`}>
+              <Link to={`/place/${place.id}/edit`}>
                 <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
                   <AiFillSetting size='21px' color='#94a3b8' />
                 </p>
@@ -43,11 +44,7 @@ export default function PlaceDetail({ place }) {
                     <AiFillDelete size='21px' color='#94a3b8' />
                   </button>
                 }
-                confirmBtn={
-                  <button className='text-red11 bg-red4 hover:bg-red5 inline-flex py-3 items-center justify-center rounded-md px-4 font-medium leading-none outline-none'>
-                    Smazat
-                  </button>
-                }
+                confirmBtn={<PlaceRemover id={place.id} />}
                 cancleBtn={
                   <button className='text-mauve11 bg-mauve4 hover:bg-mauve5 inline-flex py-3 items-center justify-center rounded-md px-4 font-medium leading-none outline-none '>
                     Zrušit

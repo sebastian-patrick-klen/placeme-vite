@@ -30,7 +30,6 @@ const router = createBrowserRouter([
       {
         path: '/user/:id/new',
         element: <NewPlace />,
-        action: () => {},
       },
       {
         path: '/place/:id',

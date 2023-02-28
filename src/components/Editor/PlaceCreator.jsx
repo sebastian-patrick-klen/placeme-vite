@@ -3,14 +3,23 @@ import { AnimatePresence } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
 import { updatePlaceSchema } from '../../schemas';
 import PositionContext from '../../store/position-context';
-import Form from '../Forms/Form';
+import Form from '../Forms/FormWrapper';
 import FormButton from '../Forms/FormButton';
 import Input from '../Forms/Input';
 import SelectLocation from './SelectLocation';
+import { getAuthToken } from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
+import Alert from '../Layout/UI/Alert';
 
 const PlaceCreator = () => {
   const posCtx = useContext(PositionContext);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [alertData, setAlterData] = useState({ message: '', title: '' });
+
+  const navigate = useNavigate();
+  const token = getAuthToken();
 
   const formik = useFormik({
     initialValues: {
@@ -21,7 +30,7 @@ const PlaceCreator = () => {
 
     validationSchema: updatePlaceSchema,
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const formData = {
         title: values.title,
         description: values.description,
@@ -29,7 +38,44 @@ const PlaceCreator = () => {
         lat: posCtx.newPlacePos.lat,
         lng: posCtx.newPlacePos.lng,
       };
-      console.log(formData);
+
+      const fetchString = `http://localhost:5000/api/places`;
+
+      const res = await fetch(fetchString, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token[1]}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setIsLoading(false);
+        setIsOpen(true);
+        setAlterData({
+          title: 'Něco se pokazilo!',
+          message: data.message
+            ? data.message
+            : 'Je mi líto, ale přihlašovací údaje, které jste zadali, jsou nesprávné. Zkontrolujte prosím své přihlašovací údaje a zkuste to znovu.',
+        });
+      }
+
+      if (res.ok) {
+        setIsLoading(false);
+        setIsOpen(true);
+        setAlterData({
+          title: 'Přidáno!',
+          message: 'Příspěvek byl uspěšně přidán',
+        });
+
+        setTimeout(() => {
+          setIsOpen(false);
+          navigate(`/place/${data.place.id}`);
+        }, 3000);
+      }
     },
   });
 
@@ -80,10 +126,26 @@ const PlaceCreator = () => {
 
         <SelectLocation open={modalOpen} setOpen={setModalOpen} />
 
-        <FormButton isValid={formik.isValid} type='submit'>
-          Přidat místo
+        <FormButton
+          isValid={formik.isValid}
+          type='submit'
+          isLoading={isLoading}
+        >
+          {!isLoading ? 'Přidat místo' : 'Ukládání...'}
         </FormButton>
       </Form>
+      <Alert
+        title={alertData.title}
+        message={alertData.message}
+        cancleBtn={
+          <button className='text-mauve11 bg-mauve4 hover:bg-mauve5 inline-flex py-3 items-center justify-center rounded-md px-4 font-medium leading-none outline-none '>
+            Zavřít
+          </button>
+        }
+        btn='Smazat'
+        open={isOpen}
+        setOpen={setIsOpen}
+      />
     </div>
   );
 };
