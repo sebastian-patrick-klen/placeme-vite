@@ -13,7 +13,7 @@ export default function ({
     <div className='flex flex-col'>
       <label
         htmlFor={name}
-        className='block mb-2 text-base font-medium text-gray-700 '
+        className="after:content-['*'] after:ml-0.5 after:text-red-500 block mb-2 text-base font-medium text-gray-700 "
       >
         {label}
       </label>

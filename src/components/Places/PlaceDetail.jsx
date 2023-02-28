@@ -2,8 +2,11 @@ import Alert from '../Layout/UI/Alert';
 import { AiFillSetting, AiFillDelete } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import PlaceRemover from '../Editor/PlaceRemover';
+import { getAuthToken } from '../../utils/auth';
 
 export default function PlaceDetail({ place }) {
+  const token = getAuthToken();
+
   return (
     <div className='w-full calc-height flex items-center justify-center overflow-hidden rounded-lg'>
       <div className='max-w-2xl mx-auto flex flex-col bg-gray-100 rounded-lg overflow-hidden'>
@@ -28,31 +31,33 @@ export default function PlaceDetail({ place }) {
                 Ukázat na mapě
               </p>
             </Link>
-            <>
-              <Link to={`/place/${place.id}/edit`}>
-                <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
-                  <AiFillSetting size='21px' color='#94a3b8' />
-                </p>
-              </Link>
+            {token[1] && token[0] === place.creator && (
+              <>
+                <Link to={`/place/${place.id}/edit`}>
+                  <p className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
+                    <AiFillSetting size='21px' color='#94a3b8' />
+                  </p>
+                </Link>
 
-              <Alert
-                title='Opravdu chcete smazat tento příspěvek?'
-                message='Upozorňuji vás, že smazání příspěvku je nevratný krok, obsah
+                <Alert
+                  title='Opravdu chcete smazat tento příspěvek?'
+                  message='Upozorňuji vás, že smazání příspěvku je nevratný krok, obsah
   bude trvale odstraněn!'
-                btnOpen={
-                  <button className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
-                    <AiFillDelete size='21px' color='#94a3b8' />
-                  </button>
-                }
-                confirmBtn={<PlaceRemover id={place.id} />}
-                cancleBtn={
-                  <button className='text-mauve11 bg-mauve4 hover:bg-mauve5 inline-flex py-3 items-center justify-center rounded-md px-4 font-medium leading-none outline-none '>
-                    Zrušit
-                  </button>
-                }
-                btn='Smazat'
-              />
-            </>
+                  btnOpen={
+                    <button className='px-5 py-3 bg-gray-200 hover:bg-gray-300 text-sm uppercase text-white font-bold rounded-lg transition-colors'>
+                      <AiFillDelete size='21px' color='#94a3b8' />
+                    </button>
+                  }
+                  confirmBtn={<PlaceRemover id={place.id} />}
+                  cancleBtn={
+                    <button className='text-mauve11 bg-mauve4 hover:bg-mauve5 inline-flex py-3 items-center justify-center rounded-md px-4 font-medium leading-none outline-none '>
+                      Zrušit
+                    </button>
+                  }
+                  btn='Smazat'
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

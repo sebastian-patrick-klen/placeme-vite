@@ -16,12 +16,12 @@ export default function AtuhIndex() {
       {isMode ? <LoginForm /> : <SingupForm />}
 
       <p className=' my-6 text-base text-gray-700'>
-        {isMode ? 'Nemáte účet ' : 'Už máte účet '}
+        {isMode ? 'Nemáte účet? ' : 'Už máte účet. '}
         <Link
           to={`?mode=${isMode ? 'signup' : 'login'}`}
           className='underline cursor-pointer'
         >
-          {!isMode ? 'přihlšte se' : 'zaregistrujte se'}
+          {!isMode ? 'Přihlašte se' : 'Zaregistrujte se'}
         </Link>
       </p>
     </div>

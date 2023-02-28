@@ -82,10 +82,10 @@ export default function SingupForm() {
         errMessage={formik.errors.name}
       />
       <Input
-        label='Email'
+        label='E-mail'
         id='email'
         name='email'
-        placeholder='Email'
+        placeholder='E-mail'
         type='email'
         onChange={formik.handleChange}
         value={formik.values.email}

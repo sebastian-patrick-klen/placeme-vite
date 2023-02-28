@@ -66,9 +66,9 @@ export default function LoginForm() {
       <Form onSubmit={formik.handleSubmit}>
         <Input
           id='email'
-          label='Email'
+          label='E-mail'
           name='email'
-          placeholder='Email'
+          placeholder='E-mail'
           type='email'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
